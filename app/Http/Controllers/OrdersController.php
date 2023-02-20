@@ -136,7 +136,7 @@ class OrdersController extends Controller
      */
     public function destroy($id)
     {
-        $deleteOrder = Order::where('id',$id)->delete();
+        $deleteOrder = Orders::where(['id'=>$id,'payed'=>0])->delete();
         if($deleteOrder)
         {
             return [
@@ -148,7 +148,7 @@ class OrdersController extends Controller
         {
             return [
                 'status'=> 400,
-                'message'=> 'Something went wrong' 
+                'message'=> 'Order is payed or Something went wrong' 
             ];
         }
     }
@@ -172,7 +172,7 @@ class OrdersController extends Controller
         {
             return [
                 'status'=> 400,
-                'message'=> "Order can't be updated"
+                'message'=> "Order not found"
             ];
         }
 
