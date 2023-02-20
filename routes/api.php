@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('/orders','OrdersController@index');
+Route::post('/orders','OrdersController@store');
+Route::put('/orders/{order_id}','OrdersController@update');
+Route::get('/orders/{order_id}','OrdersController@show');
+Route::delete('/orders/{order_id}','OrdersController@destroy');
+
+Route::post('/orders/{order_id}/add','OrdersController@addProductToOrder');
+Route::post('/orders/{order_id}/pay','OrdersController@orderPayment');

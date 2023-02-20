@@ -48,8 +48,36 @@ class Handler extends ExceptionHandler
      *
      * @throws \Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
-        return parent::render($request, $exception);
+        switch($e){
+            case ($e instanceof \Illuminate\Database\QueryException):
+                $message = $e->getMessage();
+                $code = $e->getCode();
+                $line = $e->getLine();
+                $file = $e->getFile();
+                return response()->json([
+                    'status' => $code,
+                    'message' => $message,
+                    'type' => 'QueryException'
+                ]);
+                break;
+            
+            case ($e instanceof \Exception):
+                $message = $e->getMessage();
+                $code = $e->getCode();
+                $line = $e->getLine();
+                $file = $e->getFile();
+                return response()->json([
+                    'status' => $code,
+                    'message' => $message,
+                    'type' => 'Exception'
+                ]);
+                break;
+
+            default:
+               return parent::render($request, $e);
+               break;
+        }
     }
 }
